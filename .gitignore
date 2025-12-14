@@ -8,8 +8,3 @@ __pycache__/
 
 # macOS
 .DS_Store
-
-test.py
-*_test.py
-test_*.py
-tests/
