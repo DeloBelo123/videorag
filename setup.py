@@ -28,7 +28,11 @@ def hhmmss_to_seconds(timestamp: str) -> float:
 
 #image encoding
 def turn_link_to_video(link:str,video_output_path:str):
-    cli_exec(f'yt-dlp -f bestvideo+bestaudio -o "{video_output_path}" "{link}"')
+    formats = ["best", "bestvideo+bestaudio", "worst"]
+    for fmt in formats:
+        if cli_exec(f'yt-dlp --no-playlist -f "{fmt}" -o "{video_output_path}" "{link}"'):
+            return True
+    return False
 
 def take_screenshot(video_path:str,output_path:str,timestamp:float):
     cli_exec(f'ffmpeg -ss {timestamp} -i "{video_path}" -frames:v 1 "{output_path}"')
@@ -80,8 +84,17 @@ def llm_describe_images(image_paths:List[str]):
     return descriptions
 
 #speech 
-def turn_link_to_speech(link:str,audio_output_path:str):
-    cli_exec(f'yt-dlp -f bestaudio -x --audio-format mp3 -o "{audio_output_path}" "{link}"')
+def turn_link_to_speech(link:str,audio_output_path:str,video_path:str=None):
+    formats = ["bestaudio", "worstaudio"]
+    for fmt in formats:
+        if cli_exec(f'yt-dlp --no-playlist -f "{fmt}" -x --audio-format mp3 -o "{audio_output_path}" "{link}"'):
+            return True
+    
+    if video_path and os.path.exists(video_path):
+        if cli_exec(f'ffmpeg -i "{video_path}" -vn -acodec libmp3lame -ab 192k "{audio_output_path}"'):
+            return True
+    
+    return False
 
 model = WhisperModel("small", device="cpu")
 def speech_to_text(audio_path:str):

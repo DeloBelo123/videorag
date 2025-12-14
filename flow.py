@@ -9,12 +9,23 @@ def turn_link_to_rag(
     audio_output_path:str = "audio.mp3"
 ):
     # video und audio datein erstellen
-    turn_link_to_video(link,video_output_path)
-    turn_link_to_speech(link,audio_output_path)
+    if not turn_link_to_video(link,video_output_path):
+        raise RuntimeError(f"Video-Download fehlgeschlagen: {link}")
+    
+    if not turn_link_to_speech(link,audio_output_path,video_output_path):
+        raise RuntimeError(f"Audio-Download fehlgeschlagen: {link}")
 
     #prüfen ob die rag datei exestiert, wenn nein erstellen wir die
     if not does_file_exist(rag_output_path):
         create_file(rag_output_path,"")
+    
+    #prüfen ob audio datei existiert
+    if not does_file_exist(audio_output_path):
+        raise RuntimeError(f"Audio-Datei '{audio_output_path}' wurde nicht erstellt")
+    
+    #prüfen ob video datei existiert
+    if not does_file_exist(video_output_path):
+        raise RuntimeError(f"Video-Datei '{video_output_path}' wurde nicht erstellt")
     
     #die audio aud dem video rausholen
     text = "\n".join(speech_to_text(audio_output_path))
