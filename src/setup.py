@@ -41,8 +41,9 @@ def encode_image(path:str) -> str:
     with open(path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-def llm_describe_image(image_paths:list[str],video_title:str,video_description:str):
+def llm_describe_image(image_paths:list[str],video_title:str,video_description:str,ignore:str = None):
     try:
+        real_ignore = f"ignore the following thing in the pictures: {ignore}" if ignore else ""
         content = [
             {
                 "type": "text",
@@ -57,6 +58,8 @@ def llm_describe_image(image_paths:list[str],video_title:str,video_description:s
 
             VIDEO DESCRIPTION:
             {video_description}
+
+            {real_ignore}
 
             TASK:
             - Interpret the screenshots as PARTS OF A CONTINUOUS VIDEO.
