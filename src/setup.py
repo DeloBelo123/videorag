@@ -130,7 +130,8 @@ def speech_to_text(audio_path:str):
     return content
 
 # AI summarizer
-def summarizer(text:str,video_title:str,video_topic:str):
+def summarizer(text:str,video_title:str,video_topic:str,fokuss:str = None):
+    real_focus = f"when summarizing, focus espacialy on the following topic: {fokuss}" if fokuss else ""
     prompt = f"""
         You are a professional video content analyst specialized in creating
         high-quality summaries for Retrieval-Augmented Generation (RAG) systems.
@@ -142,10 +143,12 @@ def summarizer(text:str,video_title:str,video_topic:str):
         VIDEO TITLE: "{video_title}"
         VIDEO TOPIC: "{video_topic}"
 
+        {real_focus}
+
         YOUR TASK:
         1. Split the video into meaningful, semantic CHAPTERS.
         2. Each chapter must represent a coherent idea, phase, or topic in the video.
-        3. Focus on the topic of the video
+        3. Focus on the topic of the video and the data said
         4. For EACH chapter, provide:
         - A clear, descriptive TITLE (RAG-friendly, informative, specific)
         - The EXACT TIME RANGE using the original timestamps

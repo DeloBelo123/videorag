@@ -6,6 +6,7 @@ def turn_link_to_rag(
     screenshot_timestamps:list[str], #in Form 'HH:MM:SS'
     video_title:str,
     video_topic:str,
+    fokuss_if_summarized:str = None,
     rag_output_path:str = "video_rag.txt",
     video_output_path:str = "video.mp4",
     audio_output_path:str = "audio.mp3",
@@ -42,7 +43,7 @@ def turn_link_to_rag(
 
     #die datein jetzt in die Datei einfügen
     if include_summarizer:
-        add_to_file(rag_output_path,summarizer(f"SUMMARY:\n{text}",video_title,video_topic))
+        add_to_file(rag_output_path,summarizer(f"SUMMARY:\n{text}",video_title,video_topic,fokuss_if_summarized))
     add_to_file(rag_output_path,f"WORD FOR WORDTRANSCRIPT:\n{text}")
     add_to_file(rag_output_path,f"VISUAL DESCRIPTION:\n{descriptions}")
     return rag_output_path
