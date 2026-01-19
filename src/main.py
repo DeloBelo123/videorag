@@ -1,4 +1,4 @@
-from flow import turn_link_to_rag
+from video_flow import turn_video_to_rag
 from typing import Optional
 import re
 
@@ -36,7 +36,7 @@ def main():
     real_screenshots_timestamps = [timestamp for timestamp in screenshot_timestamps.split(",")] 
     rag_file_name:Optional[str] = input("(optional) wie soll die generierte Datei heissen? Wenns nicht juckt, einfach Enter drücken")
     final_name = rag_file_name if rag_file_name else "video_rag.txt"
-    turn_link_to_rag(
+    turn_video_to_rag(
         link=yt_link,
         screenshot_timestamps=real_screenshots_timestamps,
         rag_output_path=final_name,

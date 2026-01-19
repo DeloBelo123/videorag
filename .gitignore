@@ -11,4 +11,5 @@ __pycache__/
 
 videos/
 
-src/test.py
+src/video_test.py
+src/audio_test.py

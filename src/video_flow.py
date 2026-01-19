@@ -1,7 +1,7 @@
 from file_utils import create_file,read_file,add_to_file,does_file_exist
 from setup import turn_link_to_video,take_screenshot,llm_describe_image,speech_to_text,turn_link_to_speech,hhmmss_to_seconds,summarizer
 
-def turn_link_to_rag(
+def turn_video_to_rag(
     link:str, 
     video_title:str = None,
     video_topic:str = None,
@@ -49,7 +49,7 @@ def turn_link_to_rag(
     #die datein jetzt in die Datei einfügen
     if include_summarizer:
         add_to_file(rag_output_path,summarizer(f"SUMMARY:\n{text}",video_title,video_topic,fokuss_in_summary))
-    add_to_file(rag_output_path,f"WORD FOR WORDTRANSCRIPT:\n{text}")
+    add_to_file(rag_output_path,f"WORD FOR WORD TRANSCRIPT:\n{text}")
     if screenshot_timestamps:
         add_to_file(rag_output_path,f"VISUAL DESCRIPTION:\n{descriptions}")
     return rag_output_path
